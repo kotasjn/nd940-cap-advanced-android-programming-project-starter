@@ -5,6 +5,8 @@ import com.example.android.politicalpreparedness.database.LocalDatabase
 import com.example.android.politicalpreparedness.election.ElectionsDataSource
 import com.example.android.politicalpreparedness.election.ElectionsRepository
 import com.example.android.politicalpreparedness.election.ElectionsViewModel
+import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.CivicsApiService
 import com.example.android.politicalpreparedness.representative.RepresentativeDataSource
 import com.example.android.politicalpreparedness.representative.RepresentativeRepository
 import com.example.android.politicalpreparedness.representative.RepresentativeViewModel
@@ -26,9 +28,10 @@ class PoliticalPreparednessApp : Application() {
             viewModel { ElectionsViewModel(get(), get() as ElectionsDataSource) }
             viewModel { RepresentativeViewModel(get(), get() as RepresentativeDataSource) }
 
-            single { ElectionsRepository(get()) as ElectionsDataSource}
+            single { ElectionsRepository(get(), get()) as ElectionsDataSource}
             single { RepresentativeRepository(get()) as RepresentativeDataSource}
             single { LocalDatabase.createElectionDao(this@PoliticalPreparednessApp) }
+            single { CivicsApi.retrofitService }
         }
 
         startKoin {

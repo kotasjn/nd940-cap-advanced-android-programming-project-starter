@@ -1,17 +1,69 @@
 package com.example.android.politicalpreparedness.election
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.base.BaseViewModel
+import com.example.android.politicalpreparedness.base.NavigationCommand
+import com.example.android.politicalpreparedness.network.Result
+import com.example.android.politicalpreparedness.network.models.Election
+import kotlinx.coroutines.launch
 
-//TODO: Construct ViewModel and provide election datasource
-class ElectionsViewModel(val app: Application, val dataSource: ElectionsDataSource): BaseViewModel(app) {
+class ElectionsViewModel(val app: Application, private val dataSource: ElectionsDataSource) :
+    BaseViewModel(app) {
 
-    //TODO: Create live data val for upcoming elections
+    private val _upcomingElections = MutableLiveData<List<Election>>()
+    val upcomingElections: LiveData<List<Election>>
+        get() = _upcomingElections
 
-    //TODO: Create live data val for saved elections
+    private val _savedElections = MutableLiveData<List<Election>>()
+    val savedElections: LiveData<List<Election>>
+        get() = _savedElections
 
-    //TODO: Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
+    init {
+        viewModelScope.launch {
 
-    //TODO: Create functions to navigate to saved or upcoming election voter info
+        }
+    }
 
+    fun loadElections() {
+        showLoading.value = true
+        viewModelScope.launch {
+            loadUpcomingElections()
+            loadSavedElections()
+            showLoading.postValue(false)
+        }
+    }
+
+    private suspend fun loadUpcomingElections() {
+        when (val result = dataSource.getUpcomingElections()) {
+            is Result.Success -> {
+                _upcomingElections.postValue(result.data.elections)
+            }
+            is Result.Error -> {
+                showSnackBar.value = result.message
+            }
+        }
+    }
+
+    fun navigateToElectionDetail(election: Election) {
+        navigationCommand.value = NavigationCommand.To(
+            ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
+                election.id,
+                election.division
+            )
+        )
+    }
+
+    private suspend fun loadSavedElections() {
+        when (val result = dataSource.getSavedElections()) {
+            is Result.Success -> {
+                _savedElections.postValue(result.data)
+            }
+            is Result.Error -> {
+                showSnackBar.value = result.message
+            }
+        }
+    }
 }
