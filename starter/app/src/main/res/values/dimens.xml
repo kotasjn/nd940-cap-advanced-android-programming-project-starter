@@ -5,6 +5,6 @@
     <dimen name="space_8dp">8dp</dimen>
     <dimen name="space_16dp">16dp</dimen>
 
-    <!-- TODO: Add necessary dimension values -->
+    <dimen name="font_20sp">20sp</dimen>
 
 </resources>

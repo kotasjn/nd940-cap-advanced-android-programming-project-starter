@@ -4,6 +4,6 @@
     <string name="upcoming_elections">upcoming elections</string>
     <string name="find_my_representatives">find my representatives</string>
 
-    <!-- TODO: Add necessary string values -->
+    <string name="upcoming_election_title">Upcoming Election</string>
 
 </resources>

@@ -8,19 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
+import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class DetailFragment : Fragment() {
+class RepresentativeFragment : BaseFragment() {
 
     companion object {
         //TODO: Add Constant for Location request
     }
 
     private lateinit var binding: FragmentRepresentativeBinding
-    //TODO: Declare ViewModel
+
+    override val viewModel by viewModel<RepresentativeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +31,7 @@ class DetailFragment : Fragment() {
     ): View {
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
-
+        binding.viewModel = viewModel
 
         //TODO: Establish bindings
 

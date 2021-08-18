@@ -15,6 +15,9 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <!-- TODO: Add necessary styles -->
+    <style name="TitleText" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/font_20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
 
 </resources>

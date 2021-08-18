@@ -44,6 +44,9 @@ dependencies {
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
 
+    // Koin DI
+    implementation "io.insert-koin:koin-android:$version_koin"
+
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
 
