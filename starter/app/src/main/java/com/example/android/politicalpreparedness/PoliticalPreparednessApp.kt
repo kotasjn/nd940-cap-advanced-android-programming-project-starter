@@ -5,8 +5,10 @@ import com.example.android.politicalpreparedness.database.LocalDatabase
 import com.example.android.politicalpreparedness.election.ElectionsDataSource
 import com.example.android.politicalpreparedness.election.ElectionsRepository
 import com.example.android.politicalpreparedness.election.ElectionsViewModel
+import com.example.android.politicalpreparedness.election.VoterInfoViewModel
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.CivicsApiService
+import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.representative.RepresentativeDataSource
 import com.example.android.politicalpreparedness.representative.RepresentativeRepository
 import com.example.android.politicalpreparedness.representative.RepresentativeViewModel
@@ -27,6 +29,7 @@ class PoliticalPreparednessApp : Application() {
             //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel { ElectionsViewModel(get(), get() as ElectionsDataSource) }
             viewModel { RepresentativeViewModel(get(), get() as RepresentativeDataSource) }
+            viewModel { (election: Election) -> VoterInfoViewModel(get(), get(), election) }
 
             single { ElectionsRepository(get(), get()) as ElectionsDataSource}
             single { RepresentativeRepository(get()) as RepresentativeDataSource}

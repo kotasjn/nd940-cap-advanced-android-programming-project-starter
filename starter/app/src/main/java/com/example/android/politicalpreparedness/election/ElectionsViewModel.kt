@@ -23,11 +23,11 @@ class ElectionsViewModel(val app: Application, private val dataSource: Elections
 
     init {
         viewModelScope.launch {
-
+            loadElections()
         }
     }
 
-    fun loadElections() {
+    private fun loadElections() {
         showLoading.value = true
         viewModelScope.launch {
             loadUpcomingElections()
@@ -49,10 +49,7 @@ class ElectionsViewModel(val app: Application, private val dataSource: Elections
 
     fun navigateToElectionDetail(election: Election) {
         navigationCommand.value = NavigationCommand.To(
-            ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
-                election.id,
-                election.division
-            )
+            ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election)
         )
     }
 

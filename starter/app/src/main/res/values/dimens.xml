@@ -5,6 +5,7 @@
     <dimen name="space_8dp">8dp</dimen>
     <dimen name="space_16dp">16dp</dimen>
 
+    <dimen name="font_16sp">16sp</dimen>
     <dimen name="font_20sp">20sp</dimen>
 
 </resources>

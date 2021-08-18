@@ -1,10 +1,15 @@
 package com.example.android.politicalpreparedness.election.adapter
 
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.network.models.Election
+import java.text.SimpleDateFormat
+import java.util.*
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: LiveData<List<Election>>) {
@@ -16,8 +21,29 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: LiveData<List<Election>>)
 }
 
 @BindingAdapter("viewVisible")
-fun bindRecyclerView(view: View, isLoading: LiveData<Boolean>) {
-    isLoading.value?.let {
-        view.visibility = if (it) View.VISIBLE else View.INVISIBLE
+fun bindRecyclerView(view: View, isLoading: Boolean) {
+    view.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
+}
+
+@BindingAdapter("textDate")
+fun bindRecyclerView(textView: TextView, date: Date?) {
+    if (date == null) {
+        textView.text = ""
+    } else {
+        val format = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US)
+        textView.text = format.format(date)
     }
+}
+
+@BindingAdapter("followText")
+fun bindRecyclerView(button: AppCompatButton, isFollowing: Boolean?) {
+    isFollowing?.let {
+        if (it) button.setText(R.string.unfollow_election)
+        else button.setText(R.string.follow_election)
+    }
+}
+
+@BindingAdapter("goneIfNull")
+fun goneIfNull(view: View, it: Any?) {
+    view.visibility = if (it == null) View.GONE else View.VISIBLE
 }

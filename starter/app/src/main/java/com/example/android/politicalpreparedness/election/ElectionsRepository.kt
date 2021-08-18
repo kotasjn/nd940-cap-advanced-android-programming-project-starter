@@ -8,6 +8,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class ElectionsRepository(
@@ -16,8 +17,17 @@ class ElectionsRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ElectionsDataSource {
 
-    override suspend fun getElection(id: Int): Result<Election> {
-        TODO("Not yet implemented")
+    override suspend fun getElection(id: Int): Result<Election> = withContext(dispatcher) {
+        try {
+            val election = electionDao.getElection(id)
+            if (election != null) {
+                return@withContext Result.Success(election)
+            } else {
+                return@withContext Result.Error()
+            }
+        } catch (e: Exception) {
+            return@withContext Result.Error(e.localizedMessage)
+        }
     }
 
     override suspend fun saveElection(election: Election) {

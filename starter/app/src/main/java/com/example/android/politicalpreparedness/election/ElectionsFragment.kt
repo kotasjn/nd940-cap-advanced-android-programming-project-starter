@@ -33,11 +33,6 @@ class ElectionsFragment : BaseFragment() {
         setupRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadElections()
-    }
-
     private fun setupRecyclerView() {
         val upcomingElectionsAdapter =
             ElectionListAdapter(ElectionListAdapter.ElectionListener(viewModel::navigateToElectionDetail))
