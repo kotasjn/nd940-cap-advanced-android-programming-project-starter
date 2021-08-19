@@ -21,11 +21,10 @@ class ElectionsViewModel(val app: Application, private val dataSource: Elections
     val savedElections: LiveData<List<Election>>
         get() = _savedElections
 
-    fun loadElections() {
+    init {
         viewModelScope.launch {
             showLoading.postValue(true)
             loadUpcomingElections()
-            loadSavedElections()
             showLoading.postValue(false)
         }
     }
@@ -42,18 +41,21 @@ class ElectionsViewModel(val app: Application, private val dataSource: Elections
     }
 
     fun navigateToElectionDetail(election: Election) {
+        _savedElections.value = listOf()
         navigationCommand.value = NavigationCommand.To(
             ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election)
         )
     }
 
-    private suspend fun loadSavedElections() {
-        when (val result = dataSource.getSavedElections()) {
-            is Result.Success -> {
-                _savedElections.postValue(result.data)
-            }
-            is Result.Error -> {
-                showSnackBar.value = result.message
+    fun loadSavedElections() {
+        viewModelScope.launch {
+            when (val result = dataSource.getSavedElections()) {
+                is Result.Success -> {
+                    _savedElections.postValue(result.data)
+                }
+                is Result.Error -> {
+                    showSnackBar.value = result.message
+                }
             }
         }
     }

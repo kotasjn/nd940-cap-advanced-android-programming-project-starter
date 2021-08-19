@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness
 
 import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.android.politicalpreparedness.database.LocalDatabase
 import com.example.android.politicalpreparedness.election.ElectionsDataSource
 import com.example.android.politicalpreparedness.election.ElectionsRepository
@@ -22,19 +23,16 @@ class PoliticalPreparednessApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        /**
-         * use Koin Library as a service locator
-         */
         val myModule = module {
-            //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel { ElectionsViewModel(get(), get() as ElectionsDataSource) }
             viewModel { RepresentativeViewModel(get(), get() as RepresentativeDataSource) }
             viewModel { (election: Election) -> VoterInfoViewModel(get(), get(), election) }
 
-            single { ElectionsRepository(get(), get()) as ElectionsDataSource}
-            single { RepresentativeRepository(get()) as RepresentativeDataSource}
+            single { ElectionsRepository(get(), get()) as ElectionsDataSource }
+            single { RepresentativeRepository(get()) as RepresentativeDataSource }
             single { LocalDatabase.createElectionDao(this@PoliticalPreparednessApp) }
             single { CivicsApi.retrofitService }
+            single { ChuckerInterceptor.Builder(this@PoliticalPreparednessApp).build() }
         }
 
         startKoin {
@@ -42,5 +40,4 @@ class PoliticalPreparednessApp : Application() {
             modules(listOf(myModule))
         }
     }
-
 }

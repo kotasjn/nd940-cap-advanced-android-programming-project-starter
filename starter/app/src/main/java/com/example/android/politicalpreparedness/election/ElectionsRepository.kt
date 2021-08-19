@@ -6,6 +6,7 @@ import com.example.android.politicalpreparedness.network.Result
 import com.example.android.politicalpreparedness.network.models.Division
 import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,29 +39,25 @@ class ElectionsRepository(
         electionDao.delete(election)
     }
 
-    // TODO service
-    override suspend fun getUpcomingElections(): Result<ElectionResponse> {
-        return Result.Success(
-            ElectionResponse(
-                "", mutableListOf(
-                    Election(
-                        1,
-                        "Election 1",
-                        Calendar.getInstance().time,
-                        Division(
-                            "1",
-                            "country",
-                            "state"
-                        )
-                    )
-                )
-            )
-        )
+    override suspend fun getUpcomingElections(): Result<ElectionResponse> = withContext(dispatcher) {
+        return@withContext try {
+            Result.Success(civicsApiService.getElections())
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
+        }
     }
 
     override suspend fun getSavedElections(): Result<List<Election>> = withContext(dispatcher) {
         return@withContext try {
             Result.Success(electionDao.getElections())
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
+        }
+    }
+
+    override suspend fun getVoterInfo(address: String, electionId: Int): Result<VoterInfoResponse> = withContext(dispatcher) {
+        return@withContext try {
+            Result.Success(civicsApiService.getVoterInfo(address, electionId))
         } catch (e: Exception) {
             Result.Error(e.localizedMessage)
         }

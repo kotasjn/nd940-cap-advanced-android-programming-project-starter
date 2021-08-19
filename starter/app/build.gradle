@@ -5,6 +5,10 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'androidx.navigation.safeargs'
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
     compileSdkVersion 30
     buildFeatures {
@@ -16,6 +20,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "GOOGLE_CIVIC_API_KEY", localProperties['GOOGLE_CIVIC_API_KEY'])
     }
     buildTypes {
         release {
@@ -77,4 +83,8 @@ dependencies {
 
     // Location
     implementation "com.google.android.gms:play-services-location:$version_play_services_location"
+
+    // Chucker
+    debugImplementation "com.github.chuckerteam.chucker:library:$version_chucker"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$version_chucker"
 }

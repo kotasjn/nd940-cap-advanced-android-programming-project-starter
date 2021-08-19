@@ -28,18 +28,11 @@ class VoterInfoViewModel(
     val url: LiveData<String?>
         get() = _url
 
-    // TODO get voter info from API
     init {
         viewModelScope.launch {
             checkElectionSaved()
+            loadVoterInfo()
         }
-
-        val voterInfoResponse = VoterInfoResponse(
-            election,
-            "location",
-            "contents"
-        )
-        _voterInfo.value = voterInfoResponse
     }
 
     fun openBrowser(url: String) {
@@ -62,7 +55,8 @@ class VoterInfoViewModel(
     }
 
     private suspend fun checkElectionSaved() {
-        when(val result = dataSource.getElection(election.id)) {
+        showLoading.postValue(true)
+        when (val result = dataSource.getElection(election.id)) {
             is Result.Success -> {
                 _isFollowing.postValue(true)
             }
@@ -71,5 +65,23 @@ class VoterInfoViewModel(
                 result.message?.let { showErrorMessage.postValue(it) }
             }
         }
+        showLoading.postValue(false)
+    }
+
+    private suspend fun loadVoterInfo() {
+        showLoading.postValue(true)
+        val address = if (election.division.state.isNotBlank())
+            "${election.division.country}, ${election.division.state}"
+        else election.division.country
+        when (val result = dataSource.getVoterInfo(address, election.id)) {
+            is Result.Success -> {
+                _voterInfo.postValue(result.data)
+            }
+            is Result.Error -> {
+                _voterInfo.value = VoterInfoResponse(election)
+                showSnackBar.value = result.message
+            }
+        }
+        showLoading.postValue(false)
     }
 }

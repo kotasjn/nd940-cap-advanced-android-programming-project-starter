@@ -21,11 +21,6 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: LiveData<List<Election>>)
     }
 }
 
-@BindingAdapter("viewVisible")
-fun bindRecyclerView(view: View, isLoading: Boolean) {
-    view.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
-}
-
 @BindingAdapter("textDate")
 fun textDate(textView: TextView, date: Date?) {
     if (date == null) {
