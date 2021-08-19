@@ -30,12 +30,12 @@ class ElectionsRepository(
         }
     }
 
-    override suspend fun saveElection(election: Election) {
-        TODO("Not yet implemented")
+    override suspend fun saveElection(election: Election) = withContext(dispatcher) {
+        electionDao.insert(election)
     }
 
-    override suspend fun deleteElection(election: Election) {
-        TODO("Not yet implemented")
+    override suspend fun deleteElection(election: Election) = withContext(dispatcher) {
+        electionDao.delete(election)
     }
 
     // TODO service
@@ -58,20 +58,11 @@ class ElectionsRepository(
         )
     }
 
-    override suspend fun getSavedElections(): Result<List<Election>> {
-        return Result.Success(
-            mutableListOf(
-                Election(
-                    1,
-                    "Election 1",
-                    Calendar.getInstance().time,
-                    Division(
-                        "1",
-                        "country",
-                        "state"
-                    )
-                )
-            )
-        )
+    override suspend fun getSavedElections(): Result<List<Election>> = withContext(dispatcher) {
+        return@withContext try {
+            Result.Success(electionDao.getElections())
+        } catch (e: Exception) {
+            Result.Error(e.localizedMessage)
+        }
     }
 }

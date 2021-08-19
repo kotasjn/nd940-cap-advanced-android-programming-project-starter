@@ -95,8 +95,6 @@
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:layout_constraintTop_toBottomOf="@id/state_correspondence_header" />
 
-        <!-- TODO: Add button to save election to Room -->
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/find_representative_button"
             style="@style/ActionButton"
@@ -106,6 +104,7 @@
             android:layout_marginEnd="@dimen/space_16dp"
             android:layout_marginBottom="@dimen/space_16dp"
             app:followText="@{viewModel.isFollowing}"
+            android:onClick="@{() -> viewModel.onFollowButtonClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

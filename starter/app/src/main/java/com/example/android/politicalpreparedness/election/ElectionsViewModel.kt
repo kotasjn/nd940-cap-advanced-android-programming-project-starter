@@ -21,15 +21,9 @@ class ElectionsViewModel(val app: Application, private val dataSource: Elections
     val savedElections: LiveData<List<Election>>
         get() = _savedElections
 
-    init {
+    fun loadElections() {
         viewModelScope.launch {
-            loadElections()
-        }
-    }
-
-    private fun loadElections() {
-        showLoading.value = true
-        viewModelScope.launch {
+            showLoading.postValue(true)
             loadUpcomingElections()
             loadSavedElections()
             showLoading.postValue(false)
