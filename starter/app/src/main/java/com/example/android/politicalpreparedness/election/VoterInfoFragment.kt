@@ -1,5 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +32,17 @@ class VoterInfoFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-
-        //TODO: Handle loading of URLs
+        viewModel.url.observe(viewLifecycleOwner, { url ->
+            url?.let { openUrl(it) }
+        })
 
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
+    private fun openUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+        viewModel.closeBrowser()
+    }
 }
