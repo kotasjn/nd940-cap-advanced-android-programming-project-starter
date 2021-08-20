@@ -23,14 +23,10 @@ class ElectionsFragment : BaseFragment() {
     ): View {
         binding = FragmentElectionBinding.inflate(inflater)
         binding.viewModel = viewModel
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         viewModel.loadSavedElections()
         setupRecyclerView()
+        return binding.root
     }
 
     private fun setupRecyclerView() {
@@ -49,6 +45,5 @@ class ElectionsFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(this.context)
             adapter = savedElectionsAdapter
         }
-
     }
 }

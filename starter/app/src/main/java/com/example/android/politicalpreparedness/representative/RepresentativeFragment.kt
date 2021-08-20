@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.politicalpreparedness.base.BaseFragment
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
@@ -32,6 +34,7 @@ class RepresentativeFragment : BaseFragment() {
         binding = FragmentRepresentativeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        setupRecyclerView()
 
         //TODO: Establish bindings
 
@@ -41,6 +44,13 @@ class RepresentativeFragment : BaseFragment() {
 
         //TODO: Establish button listeners for field and location search
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        binding.representativesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = RepresentativeListAdapter()
+        }
     }
 
     override fun onRequestPermissionsResult(

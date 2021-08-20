@@ -10,11 +10,12 @@
 
         <ImageView
             android:id="@+id/election_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/space_16dp"
             android:src="@drawable/ballot_logo"
             app:layout_constraintBottom_toTopOf="@+id/upcoming_election_button"
+            app:layout_constraintDimensionRatio="4:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +33,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/find_representative_button"
             style="@style/ActionButton"
@@ -47,4 +47,5 @@
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
