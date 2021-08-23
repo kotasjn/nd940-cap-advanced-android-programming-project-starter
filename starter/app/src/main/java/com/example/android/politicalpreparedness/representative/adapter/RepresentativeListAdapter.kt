@@ -49,17 +49,23 @@ class RepresentativeListAdapter :
         fun bind(item: Representative) {
             binding.representative = item
             binding.executePendingBindings()
+            item.official.channels?.let { showSocialLinks(it) }
+            item.official.urls?.let { showWWWLinks(it) }
         }
 
         private fun showSocialLinks(channels: List<Channel>) {
             val facebookUrl = getFacebookUrl(channels)
             if (!facebookUrl.isNullOrBlank()) {
                 enableLink(binding.facebookImageView, facebookUrl)
+            } else {
+                disableLink(binding.facebookImageView)
             }
 
             val twitterUrl = getTwitterUrl(channels)
             if (!twitterUrl.isNullOrBlank()) {
                 enableLink(binding.twitterImageView, twitterUrl)
+            } else {
+                disableLink(binding.twitterImageView)
             }
         }
 
@@ -82,6 +88,10 @@ class RepresentativeListAdapter :
         private fun enableLink(view: ImageView, url: String) {
             view.visibility = View.VISIBLE
             view.setOnClickListener { setIntent(url) }
+        }
+
+        private fun disableLink(view: ImageView) {
+            view.visibility = View.GONE
         }
 
         private fun setIntent(url: String) {

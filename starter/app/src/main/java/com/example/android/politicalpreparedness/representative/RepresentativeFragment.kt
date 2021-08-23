@@ -81,7 +81,10 @@ class RepresentativeFragment : BaseFragment() {
             enableMyLocation()
         }
 
-        binding.buttonSearch.setOnClickListener { hideKeyboard() }
+        binding.buttonSearch.setOnClickListener {
+            hideKeyboard()
+            viewModel.findMyRepresentative()
+        }
 
         return binding.root
     }

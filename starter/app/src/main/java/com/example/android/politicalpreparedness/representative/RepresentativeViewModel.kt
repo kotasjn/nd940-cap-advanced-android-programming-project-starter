@@ -27,6 +27,10 @@ class RepresentativeViewModel(
     val address: LiveData<Address>
         get() = _address
 
+    init {
+        _address.value = Address()
+    }
+
     private suspend fun loadRepresentatives(address: String) {
         when (val result = dataSource.getRepresentatives(address)) {
             is Result.Success -> {
@@ -38,6 +42,8 @@ class RepresentativeViewModel(
             is Result.Error -> {
                 if (result.statusCode == 404) {
                     showSnackBarInt.value = R.string.error_no_representatives_found
+                } else if (result.statusCode == 400) {
+                    showSnackBarInt.value = R.string.error_invalid_address
                 } else {
                     showSnackBar.value = result.message
                 }
@@ -45,14 +51,10 @@ class RepresentativeViewModel(
         }
     }
 
-    fun onFindMyRepresentativesButtonClick() {
-        findMyRepresentative()
-    }
-
-    private fun findMyRepresentative() = viewModelScope.launch {
+    fun findMyRepresentative() = viewModelScope.launch {
         showLoading.postValue(true)
-        address.value.let {
-            if (it != null) {
+        address.value?.let {
+            if (!it.isEmpty()) {
                 loadRepresentatives(it.toFormattedString())
             } else {
                 showSnackBarInt.value = R.string.error_address_required

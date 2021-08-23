@@ -17,7 +17,8 @@
         android:id="@+id/motionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/fragment_representative_scene">
+        app:layoutDescription="@xml/fragment_representative_scene"
+        tools:showPaths="true">
 
         <TextView
             android:id="@+id/search_title"
@@ -88,7 +89,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/city"
-            app:layout_constraintTop_toBottomOf="@+id/address_line_2"
+            app:layout_constraintTop_toTopOf="@+id/city"
             app:selectedValue="@={viewModel.address.state}" />
 
         <EditText
@@ -97,9 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:hint="@string/zip"
             android:inputType="number"
             android:maxLength="5"
-            android:hint="@string/zip"
             android:text="@={viewModel.address.zip}"
             app:layout_constraintEnd_toEndOf="@+id/city"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +115,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:onClick="@{()-> viewModel.onFindMyRepresentativesButtonClick()}"
             android:text="@string/find_my_representatives"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,6 @@
             android:layout_marginEnd="8dp"
             android:text="@string/use_my_location"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_search" />
 
@@ -143,7 +142,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/my_representatives"
+            app:layout_constraintBottom_toTopOf="@+id/representatives_recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_location" />
 
@@ -156,6 +157,7 @@
             android:paddingBottom="@dimen/space_16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/representative_title"
             app:listData="@{viewModel.representatives}"
@@ -165,9 +167,13 @@
             android:id="@+id/loading_progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
             android:elevation="7dp"
-            android:visibility="@{viewModel.showLoading ? View.VISIBLE : View.GONE}" />
+            android:indeterminate="true"
+            android:visibility="@{viewModel.showLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

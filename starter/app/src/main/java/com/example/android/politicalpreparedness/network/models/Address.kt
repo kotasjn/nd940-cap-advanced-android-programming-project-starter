@@ -8,9 +8,10 @@ data class Address (
         var zip: String? = null
 ) {
     fun toFormattedString(): String {
-        var output = line1.plus("\n")
-        if (!line2.isNullOrEmpty()) output = output.plus(line2).plus("\n")
-        output = output.plus("$city, $state $zip")
-        return output
+        return line1.plus("\n").plus(line2).plus("\n").plus("$city, $state $zip")
+    }
+
+    fun isEmpty(): Boolean {
+        return line1.isNullOrEmpty() || city.isNullOrEmpty() || state.isNullOrEmpty() || zip.isNullOrEmpty()
     }
 }

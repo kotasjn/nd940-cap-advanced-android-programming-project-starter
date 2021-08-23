@@ -27,5 +27,6 @@
     <string name="error_last_location_not_found">Last known location not found</string>
     <string name="error_location_required">Location services must be enabled</string>
     <string name="error_no_representatives_found">No representatives found</string>
+    <string name="error_invalid_address">Invalid address</string>
 
 </resources>
