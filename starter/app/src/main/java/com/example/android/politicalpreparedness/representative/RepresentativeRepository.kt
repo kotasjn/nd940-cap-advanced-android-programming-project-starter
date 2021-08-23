@@ -6,6 +6,7 @@ import com.example.android.politicalpreparedness.network.models.RepresentativeRe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class RepresentativeRepository(
     private val civicsApiService: CivicsApiService,
@@ -16,6 +17,8 @@ class RepresentativeRepository(
         withContext(dispatcher) {
             return@withContext try {
                 Result.Success(civicsApiService.getRepresentatives(address))
+            } catch (e: HttpException) {
+                Result.Error(e.localizedMessage, e.code())
             } catch (e: Exception) {
                 Result.Error(e.localizedMessage)
             }

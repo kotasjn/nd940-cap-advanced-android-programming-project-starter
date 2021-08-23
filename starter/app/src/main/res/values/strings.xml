@@ -17,4 +17,15 @@
     <string name="my_representatives">My Representatives</string>
     <string name="use_my_location">use my location</string>
     <string name="representative_search">Representative Search</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="city">City</string>
+    <string name="zip">Zip</string>
+
+    <string name="error_address_required">You need to fill address or use your location in order to get representatives</string>
+    <string name="error_location_permission_required">Location permission is necessary to get your current location</string>
+    <string name="error_last_location_not_found">Last known location not found</string>
+    <string name="error_location_required">Location services must be enabled</string>
+    <string name="error_no_representatives_found">No representatives found</string>
+
 </resources>

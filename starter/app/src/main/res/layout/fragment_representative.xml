@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
@@ -37,6 +39,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:hint="@string/address_line_1"
             android:inputType="textPostalAddress"
             android:text="@={viewModel.address.line1}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:hint="@string/address_line_2"
             android:inputType="textPostalAddress"
             android:text="@={viewModel.address.line2}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +69,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:hint="@string/city"
             android:inputType="textPostalAddress"
             android:text="@={viewModel.address.city}"
             app:layout_constraintEnd_toStartOf="@+id/state"
@@ -72,7 +77,6 @@
             app:layout_constraintTop_toBottomOf="@+id/address_line_2"
             tools:text="City" />
 
-        <!-- TODO: Add default values from provided resources  -->
         <Spinner
             android:id="@+id/state"
             android:layout_width="0dp"
@@ -95,6 +99,7 @@
             android:layout_marginTop="8dp"
             android:inputType="number"
             android:maxLength="5"
+            android:hint="@string/zip"
             android:text="@={viewModel.address.zip}"
             app:layout_constraintEnd_toEndOf="@+id/city"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +128,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:onClick="@{()-> viewModel.onGetLocationButtonClick()}"
             android:text="@string/use_my_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -156,6 +160,14 @@
             app:layout_constraintTop_toBottomOf="@+id/representative_title"
             app:listData="@{viewModel.representatives}"
             tools:listitem="@layout/item_representative" />
+
+        <ProgressBar
+            android:id="@+id/loading_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:elevation="7dp"
+            android:visibility="@{viewModel.showLoading ? View.VISIBLE : View.GONE}" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
